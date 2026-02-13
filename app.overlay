@@ -1,0 +1,27 @@
+&pinctrl {
+    i2c0_custom: i2c0_custom {
+        group1 {
+            pinmux = <I2C0_SDA_P20>, <I2C0_SCL_P21>;
+            input-enable;
+            input-schmitt-enable;
+        };
+    };
+};
+
+&i2c0 {
+    status = "okay";
+    pinctrl-0 = <&i2c0_custom>;
+    pinctrl-names = "default";
+
+    bmp280@76 {
+        compatible = "bosch,bme280";
+        reg = <0x76>;
+    };
+
+    ccs811@5a {
+        compatible = "ams,ccs811";
+        reg = <0x5a>;
+        wake-gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
+        reset-gpios = <&gpio0 4 GPIO_ACTIVE_LOW>;
+    };
+};
